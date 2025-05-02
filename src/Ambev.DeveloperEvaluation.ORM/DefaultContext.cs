@@ -9,6 +9,11 @@ namespace Ambev.DeveloperEvaluation.ORM;
 public class DefaultContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Branch> Branch { get; set; }
+    public DbSet<Customer> Customer { get; set; }
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Sale> Sale { get; set; }
+    public DbSet<SaleItem> SaleItem { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
@@ -34,7 +39,7 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
 
         builder.UseNpgsql(
                connectionString,
-               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
+               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
         );
 
         return new DefaultContext(builder.Options);
