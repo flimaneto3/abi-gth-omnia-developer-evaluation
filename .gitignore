@@ -1,0 +1,46 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.cache
+*.ncrunchsolution
+
+# Logs
+*.log
+**/logs/
+
+# Rider IDE
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Debug/Release configurations
+**/[Dd]ebug/
+**/[Rr]elease/
+
+# NuGet packages
+*.nupkg
+packages/
+# Uncomment if using package restore
+# !packages/repositories.config
+
+# Windows-specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Exclude auto-generated files
+*.Generated.cs
+
+# Local test database
+*.mdf
+*.ldf
+
+# Azure DevOps
+.azdevops/
