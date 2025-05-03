@@ -15,8 +15,12 @@ public class CreateSaleProfile : Profile
     {
         CreateMap<CreateSaleCommand, Sale>()
             .ForMember(dest => dest.Id, opt => opt.Ignore()) // UUID is generated automatically
-            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow));
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
+            .ForMember(dest => dest.Customer, opt => opt.Ignore())
+            .ForMember(dest => dest.Branch, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
-        CreateMap<Sale, CreateSaleResult>();
+        CreateMap<Sale, CreateSaleResult>()
+            .ForMember(dest => dest.SaleId, opt => opt.MapFrom(src => src.Id));
     }
 }

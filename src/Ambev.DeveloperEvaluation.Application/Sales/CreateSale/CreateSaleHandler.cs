@@ -63,9 +63,9 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// <returns>The calculated discount value.</returns>
     private decimal CalculateDiscount(int quantity, decimal unitPrice)
     {
-        if (quantity < 4) return 0; // ❌ No discount for less than 4 items
-        if (quantity >= 4 && quantity < 10) return quantity * unitPrice * 0.10m; // ✅ 10% discount
-        if (quantity >= 10 && quantity <= 20) return quantity * unitPrice * 0.20m; // ✅ 20% discount
+        if (quantity < 4) return 0; // No discount for less than 4 items
+        if (quantity >= 4 && quantity < 10) return quantity * unitPrice * 0.10m; // 10% discount
+        if (quantity >= 10 && quantity <= 20) return quantity * unitPrice * 0.20m; // 20% discount
         throw new InvalidOperationException("Cannot sell more than 20 identical items.");
     }
 }

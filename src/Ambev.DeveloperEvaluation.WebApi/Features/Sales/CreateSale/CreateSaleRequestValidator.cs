@@ -1,5 +1,6 @@
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using FluentValidation;
+
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
 /// <summary>
 ///     Validator for CreateSaleRequest that defines validation rules for sale creation.
@@ -22,8 +23,11 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
     {
         RuleFor(sale => sale.SaleNumber).NotEmpty().Length(3, 50);
         RuleFor(sale => sale.SaleDate).LessThanOrEqualTo(DateTime.UtcNow);
-        RuleFor(sale => sale.CustomerId).NotNull().WithMessage("Customer information is required.");
-        RuleFor(sale => sale.BranchId).NotNull().WithMessage("Branch information is required.");
+        RuleFor(sale => sale.CustomerId).NotNull().NotEqual(Guid.Empty)
+            .WithMessage("Customer information is required.");
+        RuleFor(sale => sale.BranchId).NotNull().NotEqual(Guid.Empty).NotEqual(Guid.Empty)
+            .WithMessage("Branch information is required.");
         RuleFor(sale => sale.Items).NotEmpty().WithMessage("Sale must have at least one item.");
+        RuleForEach(sale => sale.Items).SetValidator(new CreateSaleItemRequestValidator());
     }
 }
