@@ -83,7 +83,7 @@ public class Sale : BaseEntity
     /// <summary>
     /// Initializes a new sale transaction.
     /// </summary>
-    public Sale(string saleNumber, Guid customerId, Guid branchId, List<SaleItem> items)
+    public Sale(string saleNumber, Guid customerId, Guid branchId, List<SaleItem> items, Customer customer)
     {
         SaleNumber = saleNumber;
         SaleDate = DateTime.UtcNow;
@@ -91,6 +91,7 @@ public class Sale : BaseEntity
         BranchId = branchId;
         Items = items;
         CreatedAt = DateTime.UtcNow;
+        Customer = customer;
     }
 
     /// <summary>

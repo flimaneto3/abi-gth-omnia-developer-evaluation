@@ -5,6 +5,7 @@ using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.ORM.Data;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,12 @@ public class Program
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
@@ -54,7 +60,19 @@ public class Program
 
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
+            
+            // Apply migrations on startup
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DefaultContext>();
+                db.Database.Migrate();
 
+                if (app.Environment.IsDevelopment())
+                {
+                    new SeedData().Development(db);
+                }
+            }
+            
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -69,11 +87,12 @@ public class Program
             app.UseBasicHealthChecks();
 
             app.MapControllers();
-
+            Log.Information("Running log 2.");
             app.Run();
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             Log.Fatal(ex, "Application terminated unexpectedly");
         }
         finally

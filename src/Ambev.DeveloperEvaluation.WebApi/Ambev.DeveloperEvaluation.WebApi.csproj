@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn> <!-- Suppress missing documentation warnings -->
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -29,6 +34,18 @@
     <Folder Include="Features\Users\DeleteUser\" />
     <Folder Include="Features\Users\ListUsers\" />
     <Folder Include="Features\Users\UpdateUser\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Sales\GetSale\GetSaleCommand.cs" />
+    <Compile Remove="Features\Sales\GetSale\GetSaleHandler.cs" />
+    <Compile Remove="Features\Sales\GetSale\GetSaleValidator.cs" />
   </ItemGroup>
 
 </Project>

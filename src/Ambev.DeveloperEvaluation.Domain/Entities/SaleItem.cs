@@ -42,7 +42,12 @@ public class SaleItem : BaseEntity
     /// Gets product related to the item.
     /// </summary>
     public Product Product { get; set; }
-    
+
+    public SaleItem()
+    {
+        
+    }
+        
     /// <summary>
     /// Initializes a new sale item.
     /// </summary>
