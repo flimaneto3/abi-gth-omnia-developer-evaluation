@@ -1,7 +1,6 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.RegularExpressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping;
 
@@ -22,7 +21,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         builder.Property(s => s.SaleDate)
             .IsRequired();
-        
+
         builder.Property(s => s.IsCancelled)
             .IsRequired();
 
@@ -38,7 +37,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
             .WithOne()
             .HasForeignKey("SaleId")
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.Ignore(s => s.TotalAmount); 
+
+        builder.Ignore(s => s.TotalAmount);
     }
 }

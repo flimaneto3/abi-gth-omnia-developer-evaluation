@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
 /// <summary>
-/// Implementation of IUserRepository using Entity Framework Core
+///     Implementation of IUserRepository using Entity Framework Core
 /// </summary>
 public class UserRepository : IUserRepository
 {
     private readonly DefaultContext _context;
 
     /// <summary>
-    /// Initializes a new instance of UserRepository
+    ///     Initializes a new instance of UserRepository
     /// </summary>
     /// <param name="context">The database context</param>
     public UserRepository(DefaultContext context)
@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
-    /// Creates a new user in the database
+    ///     Creates a new user in the database
     /// </summary>
     /// <param name="user">The user to create</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -34,18 +34,18 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
-    /// Retrieves a user by their unique identifier
+    ///     Retrieves a user by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the user</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.Users.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
     /// <summary>
-    /// Retrieves a user by their email address
+    ///     Retrieves a user by their email address
     /// </summary>
     /// <param name="email">The email address to search for</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
-    /// Deletes a user from the database
+    ///     Deletes a user from the database
     /// </summary>
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>

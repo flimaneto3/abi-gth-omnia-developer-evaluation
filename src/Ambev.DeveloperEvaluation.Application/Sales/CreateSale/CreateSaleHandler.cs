@@ -1,22 +1,22 @@
-using AutoMapper;
-using MediatR;
-using FluentValidation;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
 /// <summary>
-/// Handler for processing CreateSaleCommand requests.
+///     Handler for processing CreateSaleCommand requests.
 /// </summary>
 public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
 {
-    private readonly ISaleRepository _saleRepository;
-    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    private readonly ISaleRepository _saleRepository;
 
     /// <summary>
-    /// Initializes a new instance of CreateSaleHandler.
+    ///     Initializes a new instance of CreateSaleHandler.
     /// </summary>
     /// <param name="saleRepository">The sale repository.</param>
     /// <param name="mapper">The AutoMapper instance.</param>
@@ -28,7 +28,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     }
 
     /// <summary>
-    /// Handles the CreateSaleCommand request.
+    ///     Handles the CreateSaleCommand request.
     /// </summary>
     /// <param name="command">The CreateSale command.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -42,7 +42,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
             item.Product = product;
             item.Discount = CalculateDiscount(item.Quantity, item.UnitPrice);
         }
-        
+
         var validator = new CreateSaleValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
@@ -56,7 +56,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     }
 
     /// <summary>
-    /// Calculates the discount based on the item quantity.
+    ///     Calculates the discount based on the item quantity.
     /// </summary>
     /// <param name="quantity">The quantity of items.</param>
     /// <param name="unitPrice">The unit price of the product.</param>

@@ -1,16 +1,16 @@
-using AutoMapper;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Mappings;
 
 /// <summary>
-/// Profile for mapping between CreateSaleRequest and CreateSaleCommand.
+///     Profile for mapping between CreateSaleRequest and CreateSaleCommand.
 /// </summary>
 public class CreateSaleRequestProfile : Profile
 {
     /// <summary>
-    /// Initializes the mappings for CreateSale feature.
+    ///     Initializes the mappings for CreateSale feature.
     /// </summary>
     public CreateSaleRequestProfile()
     {

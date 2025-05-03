@@ -1,20 +1,17 @@
-using MediatR;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 
 /// <summary>
-/// Handler for processing DeleteSaleCommand requests.
+///     Handler for processing DeleteSaleCommand requests.
 /// </summary>
 public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleResponse>
 {
     private readonly ISaleRepository _saleRepository;
 
     /// <summary>
-    /// Initializes a new instance of DeleteSaleHandler.
+    ///     Initializes a new instance of DeleteSaleHandler.
     /// </summary>
     /// <param name="saleRepository">The sale repository.</param>
     public DeleteSaleHandler(ISaleRepository saleRepository)
@@ -23,7 +20,7 @@ public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleRe
     }
 
     /// <summary>
-    /// Handles the DeleteSaleCommand request.
+    ///     Handles the DeleteSaleCommand request.
     /// </summary>
     /// <param name="command">The delete sale command.</param>
     /// <param name="cancellationToken">Cancellation token.</param>

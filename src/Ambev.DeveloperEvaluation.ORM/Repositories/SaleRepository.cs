@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
 /// <summary>
-/// Implementation of ISaleRepository using Entity Framework Core.
+///     Implementation of ISaleRepository using Entity Framework Core.
 /// </summary>
 public class SaleRepository : ISaleRepository
 {
     private readonly DefaultContext _context;
 
     /// <summary>
-    /// Initializes a new instance of SaleRepository.
+    ///     Initializes a new instance of SaleRepository.
     /// </summary>
     /// <param name="context">The database context.</param>
     public SaleRepository(DefaultContext context)
@@ -21,7 +21,7 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Creates a new sale record in the database.
+    ///     Creates a new sale record in the database.
     /// </summary>
     /// <param name="sale">The sale to create.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -34,7 +34,7 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Retrieves a sale by its unique identifier.
+    ///     Retrieves a sale by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the sale.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -49,7 +49,7 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Retrieves all sales records from the database.
+    ///     Retrieves all sales records from the database.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A collection of sales.</returns>
@@ -63,7 +63,7 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Updates an existing sale record.
+    ///     Updates an existing sale record.
     /// </summary>
     /// <param name="sale">The sale to update.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -76,7 +76,7 @@ public class SaleRepository : ISaleRepository
     }
 
     /// <summary>
-    /// Deletes a sale from the database.
+    ///     Deletes a sale from the database.
     /// </summary>
     /// <param name="id">The unique identifier of the sale to delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>

@@ -6,8 +6,8 @@ using Xunit;
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation;
 
 /// <summary>
-/// Contains unit tests for the EmailValidator class.
-/// Tests cover various email validation scenarios including format, length, and empty checks.
+///     Contains unit tests for the EmailValidator class.
+///     Tests cover various email validation scenarios including format, length, and empty checks.
 /// </summary>
 public class EmailValidatorTests
 {
@@ -19,7 +19,7 @@ public class EmailValidatorTests
     }
 
     /// <summary>
-    /// Tests that validation passes for various valid email formats.
+    ///     Tests that validation passes for various valid email formats.
     /// </summary>
     [Fact(DisplayName = "Valid email formats should pass validation")]
     public void Given_ValidEmailFormat_When_Validated_Then_ShouldNotHaveErrors()
@@ -35,7 +35,7 @@ public class EmailValidatorTests
     }
 
     /// <summary>
-    /// Tests that validation fails when the email is empty.
+    ///     Tests that validation fails when the email is empty.
     /// </summary>
     [Fact(DisplayName = "Empty email should fail validation")]
     public void Given_EmptyEmail_When_Validated_Then_ShouldHaveError()
@@ -52,7 +52,7 @@ public class EmailValidatorTests
     }
 
     /// <summary>
-    /// Tests that validation fails for various invalid email formats.
+    ///     Tests that validation fails for various invalid email formats.
     /// </summary>
     [Theory(DisplayName = "Invalid email formats should fail validation")]
     [InlineData("invalid-email")]
@@ -71,7 +71,7 @@ public class EmailValidatorTests
     }
 
     /// <summary>
-    /// Tests that validation fails when email exceeds maximum length.
+    ///     Tests that validation fails when email exceeds maximum length.
     /// </summary>
     [Fact(DisplayName = "Email exceeding maximum length should fail validation")]
     public void Given_EmailExceeding100Characters_When_Validated_Then_ShouldHaveError()

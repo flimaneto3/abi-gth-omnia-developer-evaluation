@@ -1,14 +1,12 @@
-using System;
-
 namespace Ambev.DeveloperEvaluation.Common.Security;
 
 /// <summary>
-/// Implements password hashing functionality using BCrypt algorithm.
+///     Implements password hashing functionality using BCrypt algorithm.
 /// </summary>
 public class BCryptPasswordHasher : IPasswordHasher
 {
     /// <summary>
-    /// Hashes a plain text password using BCrypt algorithm.
+    ///     Hashes a plain text password using BCrypt algorithm.
     /// </summary>
     /// <param name="password">The plain text password to hash.</param>
     /// <returns>The BCrypt hashed password.</returns>
@@ -18,7 +16,7 @@ public class BCryptPasswordHasher : IPasswordHasher
     }
 
     /// <summary>
-    /// Verifies if a plain text password matches a BCrypt hashed password.
+    ///     Verifies if a plain text password matches a BCrypt hashed password.
     /// </summary>
     /// <param name="password">The plain text password to verify.</param>
     /// <param name="hash">The BCrypt hashed password to compare against.</param>

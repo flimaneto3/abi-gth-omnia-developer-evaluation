@@ -1,13 +1,17 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using System.Reflection;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace Ambev.DeveloperEvaluation.ORM;
 
 public class DefaultContext : DbContext
 {
+    public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
+    {
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Branch> Branchs { get; set; }
     public DbSet<Customer> Customers { get; set; }
@@ -15,21 +19,18 @@ public class DefaultContext : DbContext
     public DbSet<Sale> Sales { get; set; }
     public DbSet<SaleItem> SaleItems { get; set; }
 
-    public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
 }
+
 public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
 {
     public DefaultContext CreateDbContext(string[] args)
-    {   
-        IConfigurationRoot configuration = new ConfigurationBuilder()
+    {
+        var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
@@ -38,8 +39,8 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         builder.UseNpgsql(
-               connectionString,
-                b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
+            connectionString,
+            b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
         );
 
         return new DefaultContext(builder.Options);

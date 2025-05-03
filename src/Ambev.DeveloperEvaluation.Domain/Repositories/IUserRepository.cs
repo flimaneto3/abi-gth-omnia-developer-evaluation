@@ -3,12 +3,12 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
 /// <summary>
-/// Repository interface for User entity operations
+///     Repository interface for User entity operations
 /// </summary>
 public interface IUserRepository
 {
     /// <summary>
-    /// Creates a new user in the repository
+    ///     Creates a new user in the repository
     /// </summary>
     /// <param name="user">The user to create</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -16,7 +16,7 @@ public interface IUserRepository
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a user by their unique identifier
+    ///     Retrieves a user by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the user</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -24,7 +24,7 @@ public interface IUserRepository
     Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a user by their email address
+    ///     Retrieves a user by their email address
     /// </summary>
     /// <param name="email">The email address to search for</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -32,7 +32,7 @@ public interface IUserRepository
     Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a user from the repository
+    ///     Deletes a user from the repository
     /// </summary>
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>

@@ -1,3 +1,4 @@
+using System.Reflection;
 using Ambev.DeveloperEvaluation.Application;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
@@ -21,7 +22,7 @@ public class Program
         {
             Log.Information("Starting web application");
 
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
 
             builder.Services.AddControllers();
@@ -30,7 +31,7 @@ public class Program
             builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen(options =>
             {
-                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
             });
@@ -60,19 +61,16 @@ public class Program
 
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
-            
+
             // Apply migrations on startup
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<DefaultContext>();
                 db.Database.Migrate();
 
-                if (app.Environment.IsDevelopment())
-                {
-                    new SeedData().Development(db);
-                }
+                if (app.Environment.IsDevelopment()) new SeedData().Development(db);
             }
-            
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

@@ -1,24 +1,24 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
+using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
-using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth;
 
 /// <summary>
-/// Controller for authentication operations
+///     Controller for authentication operations
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : BaseController
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
-    /// Initializes a new instance of AuthController
+    ///     Initializes a new instance of AuthController
     /// </summary>
     /// <param name="mediator">The mediator instance</param>
     /// <param name="mapper">The AutoMapper instance</param>
@@ -29,7 +29,7 @@ public class AuthController : BaseController
     }
 
     /// <summary>
-    /// Authenticates a user with their credentials
+    ///     Authenticates a user with their credentials
     /// </summary>
     /// <param name="request">The authentication request</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -38,7 +38,8 @@ public class AuthController : BaseController
     [ProducesResponseType(typeof(ApiResponseWithData<AuthenticateUserResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateUserRequest request,
+        CancellationToken cancellationToken)
     {
         var validator = new AuthenticateUserRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);

@@ -3,12 +3,12 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 
 /// <summary>
-/// Validator for GetUserCommand
+///     Validator for GetUserCommand
 /// </summary>
 public class GetUserValidator : AbstractValidator<GetUserCommand>
 {
     /// <summary>
-    /// Initializes validation rules for GetUserCommand
+    ///     Initializes validation rules for GetUserCommand
     /// </summary>
     public GetUserValidator()
     {

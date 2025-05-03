@@ -1,18 +1,14 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
 /// <summary>
-/// Repository interface for Sale entity operations.
+///     Repository interface for Sale entity operations.
 /// </summary>
 public interface ISaleRepository
 {
     /// <summary>
-    /// Creates a new sale record in the repository.
+    ///     Creates a new sale record in the repository.
     /// </summary>
     /// <param name="sale">The sale to create.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -20,7 +16,7 @@ public interface ISaleRepository
     Task<Sale> CreateAsync(Sale sale, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a sale by its unique identifier.
+    ///     Retrieves a sale by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the sale.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -28,14 +24,14 @@ public interface ISaleRepository
     Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves all sales records from the repository.
+    ///     Retrieves all sales records from the repository.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A collection of sales.</returns>
     Task<IEnumerable<Sale>> GetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an existing sale record.
+    ///     Updates an existing sale record.
     /// </summary>
     /// <param name="sale">The sale to update.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -43,7 +39,7 @@ public interface ISaleRepository
     Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a sale from the repository.
+    ///     Deletes a sale from the repository.
     /// </summary>
     /// <param name="id">The unique identifier of the sale to delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>

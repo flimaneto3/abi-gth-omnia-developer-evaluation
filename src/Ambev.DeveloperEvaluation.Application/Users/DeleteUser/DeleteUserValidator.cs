@@ -3,12 +3,12 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 
 /// <summary>
-/// Validator for DeleteUserCommand
+///     Validator for DeleteUserCommand
 /// </summary>
 public class DeleteUserValidator : AbstractValidator<DeleteUserCommand>
 {
     /// <summary>
-    /// Initializes validation rules for DeleteUserCommand
+    ///     Initializes validation rules for DeleteUserCommand
     /// </summary>
     public DeleteUserValidator()
     {

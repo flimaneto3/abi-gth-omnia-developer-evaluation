@@ -3,12 +3,12 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
 /// <summary>
-/// Validator for GetSaleRequest that defines validation rules for sale retrieval.
+///     Validator for GetSaleRequest that defines validation rules for sale retrieval.
 /// </summary>
 public class GetSaleRequestValidator : AbstractValidator<GetSaleRequest>
 {
     /// <summary>
-    /// Initializes a new instance of the GetSaleRequestValidator with defined validation rules.
+    ///     Initializes a new instance of the GetSaleRequestValidator with defined validation rules.
     /// </summary>
     public GetSaleRequestValidator()
     {

@@ -6,13 +6,13 @@ using Xunit;
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities;
 
 /// <summary>
-/// Contains unit tests for the User entity class.
-/// Tests cover status changes and validation scenarios.
+///     Contains unit tests for the User entity class.
+///     Tests cover status changes and validation scenarios.
 /// </summary>
 public class UserTests
 {
     /// <summary>
-    /// Tests that when a suspended user is activated, their status changes to Active.
+    ///     Tests that when a suspended user is activated, their status changes to Active.
     /// </summary>
     [Fact(DisplayName = "User status should change to Active when activated")]
     public void Given_SuspendedUser_When_Activated_Then_StatusShouldBeActive()
@@ -29,7 +29,7 @@ public class UserTests
     }
 
     /// <summary>
-    /// Tests that when an active user is suspended, their status changes to Suspended.
+    ///     Tests that when an active user is suspended, their status changes to Suspended.
     /// </summary>
     [Fact(DisplayName = "User status should change to Suspended when suspended")]
     public void Given_ActiveUser_When_Suspended_Then_StatusShouldBeSuspended()
@@ -46,7 +46,7 @@ public class UserTests
     }
 
     /// <summary>
-    /// Tests that validation passes when all user properties are valid.
+    ///     Tests that validation passes when all user properties are valid.
     /// </summary>
     [Fact(DisplayName = "Validation should pass for valid user data")]
     public void Given_ValidUserData_When_Validated_Then_ShouldReturnValid()
@@ -63,7 +63,7 @@ public class UserTests
     }
 
     /// <summary>
-    /// Tests that validation fails when user properties are invalid.
+    ///     Tests that validation fails when user properties are invalid.
     /// </summary>
     [Fact(DisplayName = "Validation should fail for invalid user data")]
     public void Given_InvalidUserData_When_Validated_Then_ShouldReturnInvalid()

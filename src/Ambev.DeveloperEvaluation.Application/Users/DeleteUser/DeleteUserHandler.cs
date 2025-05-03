@@ -1,18 +1,18 @@
-using MediatR;
-using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 
 /// <summary>
-/// Handler for processing DeleteUserCommand requests
+///     Handler for processing DeleteUserCommand requests
 /// </summary>
 public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserResponse>
 {
     private readonly IUserRepository _userRepository;
 
     /// <summary>
-    /// Initializes a new instance of DeleteUserHandler
+    ///     Initializes a new instance of DeleteUserHandler
     /// </summary>
     /// <param name="userRepository">The user repository</param>
     /// <param name="validator">The validator for DeleteUserCommand</param>
@@ -23,7 +23,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
     }
 
     /// <summary>
-    /// Handles the DeleteUserCommand request
+    ///     Handles the DeleteUserCommand request
     /// </summary>
     /// <param name="request">The DeleteUser command</param>
     /// <param name="cancellationToken">Cancellation token</param>

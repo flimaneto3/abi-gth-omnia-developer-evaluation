@@ -3,12 +3,12 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
 
 /// <summary>
-/// Validator for AuthenticateUserRequest
+///     Validator for AuthenticateUserRequest
 /// </summary>
 public class AuthenticateUserRequestValidator : AbstractValidator<AuthenticateUserRequest>
 {
     /// <summary>
-    /// Initializes validation rules for AuthenticateUserRequest
+    ///     Initializes validation rules for AuthenticateUserRequest
     /// </summary>
     public AuthenticateUserRequestValidator()
     {

@@ -1,23 +1,20 @@
-using MediatR;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
 /// <summary>
-/// Handler for processing GetSaleCommand requests.
+///     Handler for processing GetSaleCommand requests.
 /// </summary>
 public class GetSaleHandler : IRequestHandler<GetSaleCommand, GetSaleResult>
 {
-    private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
+    private readonly ISaleRepository _saleRepository;
 
     /// <summary>
-    /// Initializes a new instance of GetSaleHandler.
+    ///     Initializes a new instance of GetSaleHandler.
     /// </summary>
     /// <param name="saleRepository">The sale repository.</param>
     /// <param name="mapper">The AutoMapper instance</param>
@@ -30,7 +27,7 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, GetSaleResult>
     }
 
     /// <summary>
-    /// Handles the GetSaleCommand request.
+    ///     Handles the GetSaleCommand request.
     /// </summary>
     /// <param name="command">The retrieve sale command.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -39,14 +36,14 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, GetSaleResult>
     {
         var validator = new GetSaleValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        
+
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-        
+
         var sale = await _saleRepository.GetByIdAsync(request.Id, cancellationToken);
         if (sale == null)
             return default!;
-        
+
         return _mapper.Map<GetSaleResult>(sale);
     }
 }

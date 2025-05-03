@@ -4,8 +4,8 @@ using FluentValidation;
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
 /// <summary>
-/// Validator for the CreateSaleCommand.
-/// Ensures all required fields are populated and follow business rules.
+///     Validator for the CreateSaleCommand.
+///     Ensures all required fields are populated and follow business rules.
 /// </summary>
 public class CreateSaleValidator : AbstractValidator<CreateSaleCommand>
 {
@@ -33,7 +33,7 @@ public class CreateSaleValidator : AbstractValidator<CreateSaleCommand>
 }
 
 /// <summary>
-/// Validator for SaleItem to apply specific business rules.
+///     Validator for SaleItem to apply specific business rules.
 /// </summary>
 public class SaleItemValidator : AbstractValidator<SaleItem>
 {
@@ -57,8 +57,9 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
     private bool ValidateDiscount(int quantity, decimal unitPrice, decimal discount)
     {
         if (quantity < 4 && discount > 0) return false; // ❌ No discount for less than 4 items.
-        if (quantity >= 4 && quantity < 10 && discount != (quantity * unitPrice * 0.10m)) return false; // ✅ 10% discount.
-        if (quantity >= 10 && quantity <= 20 && discount != (quantity * unitPrice * 0.20m)) return false; // ✅ 20% discount.
+        if (quantity >= 4 && quantity < 10 && discount != quantity * unitPrice * 0.10m) return false; // ✅ 10% discount.
+        if (quantity >= 10 && quantity <= 20 && discount != quantity * unitPrice * 0.20m)
+            return false; // ✅ 20% discount.
         return true;
     }
 }

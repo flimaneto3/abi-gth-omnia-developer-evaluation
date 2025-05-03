@@ -1,12 +1,12 @@
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using GetSaleRequest = Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale.GetSaleRequest;
 using GetSaleRequestValidator = Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale.GetSaleRequestValidator;
 using GetSaleResponse = Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale.GetSaleResponse;
@@ -14,17 +14,17 @@ using GetSaleResponse = Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale.
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
 /// <summary>
-/// Controller for managing sale operations.
+///     Controller for managing sale operations.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class SalesController : BaseController
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     /// <summary>
-    /// Initializes a new instance of SalesController.
+    ///     Initializes a new instance of SalesController.
     /// </summary>
     /// <param name="mediator">The mediator instance.</param>
     /// <param name="mapper">The AutoMapper instance.</param>
@@ -35,7 +35,7 @@ public class SalesController : BaseController
     }
 
     /// <summary>
-    /// Creates a new sale transaction.
+    ///     Creates a new sale transaction.
     /// </summary>
     /// <param name="request">The sale creation request.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -43,7 +43,8 @@ public class SalesController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateSaleResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateSale([FromBody] CreateSaleRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateSale([FromBody] CreateSaleRequest request,
+        CancellationToken cancellationToken)
     {
         var validator = new CreateSaleRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -63,7 +64,7 @@ public class SalesController : BaseController
     }
 
     /// <summary>
-    /// Retrieves a sale by its ID.
+    ///     Retrieves a sale by its ID.
     /// </summary>
     /// <param name="id" example="6db85f64-9876-5432-b3fc-2c963f66afa6">The unique identifier of the sale.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -88,9 +89,9 @@ public class SalesController : BaseController
             return NotFound(new ApiResponse
             {
                 Success = true,
-                Message = ($"Sale with ID {id} does not exist.")
+                Message = $"Sale with ID {id} does not exist."
             });
-        
+
         return Ok(new ApiResponseWithData<GetSaleResponse>
         {
             Success = true,
@@ -100,7 +101,7 @@ public class SalesController : BaseController
     }
 
     /// <summary>
-    /// Deletes a sale by its ID.
+    ///     Deletes a sale by its ID.
     /// </summary>
     /// <param name="id">The unique identifier of the sale to delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
