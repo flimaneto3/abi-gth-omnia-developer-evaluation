@@ -122,7 +122,7 @@ A collection is included to run integration tests.
   - Sale update
   - Sale cancellation and verification
 
-Open your Postman, on your environment import the json 'End-to-End Tests.postman_collection.json', run the collection with 1000 milliseconds of delay.
+Open your Postman, on your environment import the json [End-to-End Tests.postman_collection.json](https://github.com/flimaneto3/abi-gth-omnia-developer-evaluation/blob/main/tests/End-to-End%20Tests.postman_collection.json), run the collection with 1000 milliseconds of delay.
 
 ---
 
