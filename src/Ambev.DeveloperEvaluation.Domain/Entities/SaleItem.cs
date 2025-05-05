@@ -53,4 +53,26 @@ public class SaleItem : BaseEntity
     ///     Gets product related to the item.
     /// </summary>
     public Product Product { get; set; }
+    
+    public Guid SaleId { get; set; }
+}
+
+public class SaleItemComparer : IEqualityComparer<SaleItem>
+{
+    public bool Equals(SaleItem? x, SaleItem? y)
+    {
+        if (x == null || y == null)
+            return false;
+
+        return x.ProductId == y.ProductId &&
+               x.Quantity == y.Quantity &&
+               x.UnitPrice == y.UnitPrice &&
+               x.Discount == y.Discount &&
+               x.SaleId == y.SaleId;
+    }
+
+    public int GetHashCode(SaleItem obj)
+    {
+        return HashCode.Combine(obj.ProductId, obj.Quantity, obj.UnitPrice, obj.Discount, obj.SaleId);
+    }
 }

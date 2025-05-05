@@ -64,7 +64,8 @@ public class SeedData
                     ProductId = Guid.Parse("5fb85f64-1234-5678-b3fc-2c963f66afa6"),
                     Quantity = 1,
                     UnitPrice = 4999.99m,
-                    Discount = 0.00m
+                    Discount = 0.00m,
+                    SaleId = new Guid("6db85f64-9876-5432-b3fc-2c963f66afa6")
                 }
             );
 
@@ -74,7 +75,7 @@ public class SeedData
                 {
                     Id = Guid.Parse("8db85f64-2222-1111-b3fc-2c963f66afa6"),
                     Username = "admin_user",
-                    Password = "securepasswordhash",
+                    Password = "$2a$11$aHFJM1Pfz8YoALGM0Qrq4.cIjLRoddKcbKINj1BU0UqJx5gmuC9/u",
                     Phone = "+55 11 55555-4444",
                     Email = "admin@example.com",
                     Status = UserStatus.Active,

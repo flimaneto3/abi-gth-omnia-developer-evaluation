@@ -9,4 +9,5 @@ public interface ISaleItemRepository
     Task AddAsync(SaleItem saleItem);
     Task UpdateAsync(SaleItem saleItem);
     Task DeleteAsync(Guid id);
+    Task DeleteBySaleAsync(Guid id);
 }

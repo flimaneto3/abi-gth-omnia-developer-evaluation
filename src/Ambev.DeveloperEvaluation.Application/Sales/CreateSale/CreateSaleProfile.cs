@@ -18,7 +18,8 @@ public class CreateSaleProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
             .ForMember(dest => dest.Customer, opt => opt.Ignore())
             .ForMember(dest => dest.Branch, opt => opt.Ignore())
-            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.DomainEvents, opt => opt.Ignore());
 
         CreateMap<Sale, CreateSaleResult>()
             .ForMember(dest => dest.SaleId, opt => opt.MapFrom(src => src.Id));

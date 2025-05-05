@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "c4d67ca9-bf4f-4d7a-a512-dbe82280de74",
+		"name": "End-to-End Tests",
+		"description": "> This collection features end-to-end tests that ensure the Intergalactic Bank API components function in an expected sequence. Check out the [Functional testing collection](https://www.postman.com/templates/f26ad070-d626-4d75-b151-7cbf1a48ed11/Functional-testing) and [Integration testing collection](https://www.postman.com/templates/6f788c17-067a-4074-a528-d07df1df9529/Integration-testing-%23example) for other test cases for this API. \n  \n\n## **🪐 Get started**\n\nThe fictional Intergalactic Bank Services team is responsible for testing the end-to-end workflows in this collection. You can use this collection to validate specific workflows for your team or figure out ways to increase your test coverage and make your applications more resilient.\n\nTo test the Intergalactic Bank API, you can:\n\n1. **Review tests and scripts:** Check out the [tests](https://learning.postman.com/docs/writing-scripts/test-scripts/) in the Scripts tab of a collection, folder, or request. You’ll also find additional steps in the Pre-request Script, such as for passing data between requests or building up POST request payloads.\n    \n2. **Run tests:** To run the collection, select Run collection from the collection menu. If you are interested in testing one of the use cases, select Run folder from the use case folder menu. Keep in mind that many of these tests contain logic that passes information between requests, and they are meant to be run in order from top to bottom. If you send the requests manually or out of order, your results may vary.\n    \n3. **Review test results:** Many of the test cases contain error messages to help debug service errors. If you’re using this collection as a pre-merge check, ensure that all tests are passing before submitting (and no, deleting the failing test cases isn’t an option 😉).\n    \n\nCheck out the additional sections below or select View complete documentation. For context-sensitive help with a folder or request, look for the documentation icon.\n\n## 🧑‍💻How your team can use this collection\n\n- **Add a mock server to speed up development:** Adding functionality to this service? Since this collection has example responses, you can add a mock server that will return the expected results. Start writing tests against the mock, and once your additions are live, you can swap out the URLs and have a live test suite.\n    \n- **Integrate tests with your CI/CD pipeline:** This comprehensive test suite is a great addition to your existing CI/CD pipeline. Generate the Postman CLI command from the Collection Runner and add this step to your existing checks each time you make a commit affecting this service.\n    \n- **Add a monitor:** If your team is contributing to or relying on this service, it’s a good idea to keep tabs on the status. Adding a monitor to this collection can give you confidence that the service is up and running and alert you to any breaking changes that may have occurred.\n    \n\n## 🔍 What we’re testing\n\n- A very common workflow is the transfer of funds between accounts. We have two scenarios: one which creates all resources and successfully transfers funds, and one which tries the transfer with insufficient funds.\n    \n- During these workflows, we are testing for data correctness, data types, and that data is successfully passed through the system during creation and retrieval.\n    \n\n## 🔒A note on authorization\n\nThis API uses an API key-based authorization. In this collection, we set the authorization at the collection level and generate a new API Key for each test run.\n\n## 👀 View and share run results\n\nInterested in seeing previous run results? We’re happy to share, and have a few ways for you to stay in the loop:\n\n- **Runs tab:** View past collection runs in the `Runs` tab of this collection. Here, you can see the results of past runs, including who ran them and whether it was via the Collection Runner or the CLI. You can also share individual run reports from this page.\n    \n- **Monitors:** If you have a monitor set up for this collection, you can see historical run information when you select the Monitors tab in the left sidebar. You can also have the results sent to Slack or other services when you set up a corresponding integration.\n    \n\n### 🤝Increase test coverage\n\nThe Intergalactic Bank Services team wants your team to have everything they need to successfully test our services with their applications. Is your team utilizing this API in a use case not represented here? Reach out to us on our internal Slack by tagging `@bank-services`. Or add an [inline comment](https://learning.postman.com/docs/collaborating-in-postman/working-with-your-team/discussing-your-work/) to this collection with your test case suggestions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5956878",
+		"_collection_link": "https://ambevdeveloperevaluation.postman.co/workspace/c3b24ff9-f202-46d6-b8fd-8ef5ec6373ee/collection/5956878-c4d67ca9-bf4f-4d7a-a512-dbe82280de74?action=share&source=collection_link&creator=5956878"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const json = pm.response.json();",
+							"",
+							"// Validate basic structure",
+							"pm.test(\"Response contains all required fields\", function () {",
+							"    pm.expect(json).to.have.property(\"success\", true);",
+							"    pm.expect(json).to.have.property(\"message\", \"User authenticated successfully\");",
+							"    pm.expect(json).to.have.property(\"data\");",
+							"    pm.expect(json.data).to.have.property(\"token\").that.is.a(\"string\");",
+							"    pm.expect(json.data).to.have.property(\"email\", \"admin@example.com\");",
+							"    pm.expect(json.data).to.have.property(\"name\", \"admin_user\");",
+							"    pm.expect(json.data).to.have.property(\"role\", \"Admin\");",
+							"});",
+							"",
+							"// Save token if everything is valid",
+							"if (",
+							"    json.success === true &&",
+							"    json.message === \"User authenticated successfully\" &&",
+							"    json.data?.email === \"admin@example.com\" &&",
+							"    json.data?.name === \"admin_user\" &&",
+							"    json.data?.role === \"Admin\"",
+							") {",
+							"    pm.environment.set(\"UserToken\", json.data.token);",
+							"    console.log(\"Token saved to environment variable: UserToken\");",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"securepasswordhash\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/Auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"const req = pm.request.body ? JSON.parse(pm.request.body.raw) : {};",
+							"",
+							"// Check that data.id exists",
+							"pm.test(\"Response contains data.id\", function () {",
+							"    pm.expect(res).to.have.property(\"data\");",
+							"    pm.expect(res.data).to.have.property(\"id\").that.is.a(\"string\");",
+							"});",
+							"",
+							"// Check that response fields match request values",
+							"pm.test(\"Response fields match request\", function () {",
+							"    pm.expect(res.data).to.have.property(\"saleNumber\", req.saleNumber);",
+							"    pm.expect(res.data).to.have.property(\"customer\").that.has.property(\"id\", req.customerId);",
+							"    pm.expect(res.data).to.have.property(\"branch\").that.has.property(\"id\", req.branchId);",
+							"    ",
+							"    // Optional: Compare item counts",
+							"    pm.expect(res.data.items.length).to.eql(req.items.length);",
+							"});",
+							"",
+							"// Set environment variable if valid",
+							"if (res?.data?.id) {",
+							"    pm.environment.set(\"EndToEndCreatedSale\", res.data.id);",
+							"    console.log(\"Set EndToEndCreatedSale:\", res.data.id);",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate a random 6-digit number",
+							"const randomSaleNumber = Math.floor(100000 + Math.random() * 900000).toString();",
+							"",
+							"// Save it to a Postman variable",
+							"pm.environment.set(\"RandomSaleNumber\", randomSaleNumber);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UserToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"saleNumber\": \"{{RandomSaleNumber}}\",\n  \"saleDate\": \"2025-05-04T21:02:56.346Z\",\n  \"customerId\": \"4eb85f64-6789-1234-b3fc-2c963f66afa6\",\n  \"branchId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"items\": [\n    {\n      \"productId\": \"5fb85f64-1234-5678-b3fc-2c963f66afa6\",\n      \"quantity\": 10\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/Sales",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Select Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"",
+							"// ✅ Top-level checks",
+							"pm.test(\"Top-level response structure is correct\", function () {",
+							"    pm.expect(res).to.have.property(\"success\", true);",
+							"    pm.expect(res).to.have.property(\"message\", \"Sale retrieved successfully\");",
+							"    pm.expect(res).to.have.property(\"data\");",
+							"    pm.expect(res.data).to.have.property(\"id\").that.is.a(\"string\");",
+							"    pm.expect(res.data).to.have.property(\"saleNumber\").that.is.a(\"string\");",
+							"    pm.expect(res.data).to.have.property(\"saleDate\").that.is.a(\"string\");",
+							"    pm.expect(res.data).to.have.property(\"isCancelled\").that.is.a(\"boolean\");",
+							"    pm.expect(res.data).to.have.property(\"totalAmount\").that.is.a(\"number\");",
+							"    pm.expect(res.data).to.have.property(\"items\").that.is.an(\"array\").that.is.not.empty;",
+							"});",
+							"",
+							"// ✅ Customer checks",
+							"pm.test(\"Customer object is well-formed\", function () {",
+							"    const customer = res.data.customer;",
+							"    pm.expect(customer).to.have.property(\"id\").that.is.a(\"string\");",
+							"    pm.expect(customer).to.have.property(\"name\").that.is.a(\"string\");",
+							"    pm.expect(customer).to.have.property(\"email\").that.is.a(\"string\");",
+							"    pm.expect(customer).to.have.property(\"phone\").that.is.a(\"string\");",
+							"    pm.expect(customer).to.have.property(\"createdAt\").that.is.a(\"string\");",
+							"    pm.expect(customer).to.have.property(\"updatedAt\"); // Can be null",
+							"});",
+							"",
+							"// ✅ Branch checks",
+							"pm.test(\"Branch object is well-formed\", function () {",
+							"    const branch = res.data.branch;",
+							"    pm.expect(branch).to.have.property(\"id\").that.is.a(\"string\");",
+							"    pm.expect(branch).to.have.property(\"name\").that.is.a(\"string\");",
+							"    pm.expect(branch).to.have.property(\"address\").that.is.a(\"string\");",
+							"    pm.expect(branch).to.have.property(\"phone\").that.is.a(\"string\");",
+							"    pm.expect(branch).to.have.property(\"createdAt\").that.is.a(\"string\");",
+							"    pm.expect(branch).to.have.property(\"updatedAt\"); // Can be null",
+							"});",
+							"",
+							"// ✅ Items checks",
+							"pm.test(\"Each sale item is valid\", function () {",
+							"    res.data.items.forEach(item => {",
+							"        pm.expect(item).to.have.property(\"id\").that.is.a(\"string\");",
+							"        pm.expect(item).to.have.property(\"productId\").that.is.a(\"string\");",
+							"        pm.expect(item).to.have.property(\"quantity\").that.is.a(\"number\");",
+							"        pm.expect(item).to.have.property(\"unitPrice\").that.is.a(\"number\");",
+							"        pm.expect(item).to.have.property(\"discount\").that.is.a(\"number\");",
+							"        pm.expect(item).to.have.property(\"totalItemPrice\").that.is.a(\"number\");",
+							"        pm.expect(item).to.have.property(\"saleId\").that.is.a(\"string\");",
+							"        pm.expect(item).to.have.property(\"product\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UserToken}}"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/Sales/{{EndToEndCreatedSale}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Sales",
+						"{{EndToEndCreatedSale}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"const req = JSON.parse(pm.request.body.raw);",
+							"",
+							"// === Validate structure ===",
+							"pm.test(\"Response contains all required fields\", function () {",
+							"    pm.expect(res).to.have.property(\"success\", true);",
+							"    pm.expect(res).to.have.property(\"message\", \"Sale updated successfully\");",
+							"    pm.expect(res).to.have.property(\"data\");",
+							"",
+							"    const data = res.data;",
+							"    pm.expect(data).to.have.property(\"id\");",
+							"    pm.expect(data).to.have.property(\"saleNumber\");",
+							"    pm.expect(data).to.have.property(\"saleDate\");",
+							"    pm.expect(data).to.have.property(\"customer\");",
+							"    pm.expect(data.customer).to.have.property(\"id\");",
+							"    pm.expect(data).to.have.property(\"branch\");",
+							"    pm.expect(data.branch).to.have.property(\"id\");",
+							"    pm.expect(data).to.have.property(\"items\").that.is.an(\"array\").that.is.not.empty;",
+							"    pm.expect(data).to.have.property(\"totalAmount\");",
+							"    pm.expect(data).to.have.property(\"isCancelled\");",
+							"});",
+							"",
+							"// === Compare key fields with original request ===",
+							"pm.test(\"Response fields match request\", function () {",
+							"    const data = res.data;",
+							"",
+							"    pm.expect(data.id).to.eql(req.id);",
+							"    pm.expect(data.saleNumber).to.eql(req.saleNumber);",
+							"    pm.expect(data.customer.id).to.eql(req.customerId);",
+							"    pm.expect(data.branch.id).to.eql(req.branchId);",
+							"",
+							"    // Compare each item",
+							"    for (let i = 0; i < req.items.length; i++) {",
+							"        const reqItem = req.items[i];",
+							"        const resItem = data.items[i];",
+							"",
+							"        pm.expect(resItem.productId, `Item ${i} productId mismatch`).to.eql(reqItem.productId);",
+							"        pm.expect(resItem.quantity, `Item ${i} quantity mismatch`).to.eql(reqItem.quantity);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UserToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"{{EndToEndCreatedSale}}\",\n  \"saleNumber\": \"1234\",\n  \"saleDate\": \"2025-05-04T21:02:56.346Z\",\n  \"customerId\": \"4eb85f64-6789-1234-b3fc-2c963f66afa6\",\n  \"branchId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"items\": [\n    {\n      \"productId\": \"5fb85f64-1234-5678-b3fc-2c963f66afa6\",\n      \"quantity\": 25\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/Sales/{{EndToEndCreatedSale}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Sales",
+						"{{EndToEndCreatedSale}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"",
+							"// ✅ Check basic structure",
+							"pm.test(\"Response structure is correct\", function () {",
+							"    pm.expect(res).to.have.property(\"success\", true);",
+							"    pm.expect(res).to.have.property(\"message\", \"Sale canceled successfully\");",
+							"    pm.expect(res).to.have.property(\"errors\").that.is.an(\"array\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UserToken}}"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/Sales/{{EndToEndCreatedSale}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Sales",
+						"{{EndToEndCreatedSale}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Select Canceled Sale",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"",
+							"pm.test(\"Sale is cancelled (isCancelled === true)\", function () {",
+							"    pm.expect(res).to.have.property(\"success\", true);",
+							"    pm.expect(res).to.have.property(\"message\", \"Sale retrieved successfully\");",
+							"    pm.expect(res).to.have.property(\"data\");",
+							"    pm.expect(res.data).to.have.property(\"isCancelled\", true);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UserToken}}"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/Sales/{{EndToEndCreatedSale}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Sales",
+						"{{EndToEndCreatedSale}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "api-key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{apiKey}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://template.postman-echo.com",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "OMpqVWAH.UC80wyXTtPwhDgAUdCTx6"
+		},
+		{
+			"key": "EndToEndCreatedSale",
+			"value": "3769aff2-9808-49f4-aa44-c144adc9270f",
+			"type": "default"
+		}
+	]
+}

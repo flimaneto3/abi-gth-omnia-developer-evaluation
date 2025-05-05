@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
@@ -11,30 +12,31 @@ using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application;
 
-/// <summary>
-///     Contains unit tests for the <see cref="CreateSaleHandler" /> class.
-/// </summary>
 public class CreateSaleHandlerTests
 {
     private readonly CreateSaleHandler _handler;
-    private readonly IMapper _mapper;
-    private readonly IProductRepository _productRepository;
     private readonly ISaleRepository _saleRepository;
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
+    private readonly IDomainEventDispatcher _domainEventDispatcher;
 
     public CreateSaleHandlerTests()
     {
         _saleRepository = Substitute.For<ISaleRepository>();
         _productRepository = Substitute.For<IProductRepository>();
         _mapper = Substitute.For<IMapper>();
+        _domainEventDispatcher = Substitute.For<IDomainEventDispatcher>();
 
-        _handler = new CreateSaleHandler(_saleRepository, _productRepository, _mapper);
+        _handler = new CreateSaleHandler(_saleRepository, _productRepository, _mapper, _domainEventDispatcher);
     }
 
-    [Fact(DisplayName = "Given valid sale data When creating sale Then returns success response")]
-    public async Task Handle_ValidRequest_ReturnsSuccessResponse()
+    [Fact(DisplayName = "Given valid sale data When creating sale Then returns success response and dispatches event")]
+    public async Task Handle_ValidRequest_ReturnsSuccessResponse_And_DispatchesDomainEvent()
     {
         // Arrange
         var command = CreateSaleHandlerTestData.GenerateValidCommand();
+        var sale = new Sale { Id = Guid.NewGuid() };
+        sale.CreateSale(); // Garante que evento está presente
 
         foreach (var item in command.Items)
         {
@@ -42,26 +44,23 @@ public class CreateSaleHandlerTests
             _productRepository.GetByIdAsync(item.ProductId).Returns(product);
         }
 
-        var sale = new Sale();
-        var result = new CreateSaleResult { Id = Guid.NewGuid() };
-
         _mapper.Map<Sale>(command).Returns(sale);
         _saleRepository.CreateAsync(sale, Arg.Any<CancellationToken>()).Returns(sale);
-        _mapper.Map<CreateSaleResult>(sale).Returns(result);
+        _mapper.Map<CreateSaleResult>(sale).Returns(new CreateSaleResult { SaleId = sale.Id });
 
         // Act
-        var response = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        response.Should().NotBeNull();
-        response.Id.Should().Be(result.Id);
+        result.Should().NotBeNull();
+        result.SaleId.Should().Be(sale.Id);
     }
 
     [Fact(DisplayName = "Given invalid sale data When creating sale Then throws validation exception")]
     public async Task Handle_InvalidRequest_ThrowsValidationException()
     {
         // Arrange
-        var command = new CreateSaleCommand(); // Empty => invalid
+        var command = new CreateSaleCommand(); // Invalid
         var act = () => _handler.Handle(command, CancellationToken.None);
 
         // Act & Assert
@@ -69,9 +68,9 @@ public class CreateSaleHandlerTests
     }
 
     [Theory(DisplayName = "Given sale items When calculating discount Then applies correct discount")]
-    [InlineData(2, 100, 0)] // < 4 items = 0% discount
-    [InlineData(5, 100, 50)] // 10% discount
-    [InlineData(10, 100, 200)] // 20% discount
+    [InlineData(2, 100, 0)]
+    [InlineData(5, 100, 50)]
+    [InlineData(10, 100, 200)]
     public async Task Handle_ShouldCalculateCorrectDiscount(int quantity, decimal price, decimal expectedDiscount)
     {
         // Arrange
@@ -80,10 +79,13 @@ public class CreateSaleHandlerTests
         var product = new Product("Product", "Desc", price, 100) { Id = command.Items[0].ProductId };
         _productRepository.GetByIdAsync(product.Id).Returns(product);
 
-        _mapper.Map<Sale>(command).Returns(new Sale());
-        _mapper.Map<CreateSaleResult>(Arg.Any<Sale>()).Returns(new CreateSaleResult { Id = Guid.NewGuid() });
+        var sale = new Sale { Id = Guid.NewGuid() };
+        sale.CreateSale(); // Adiciona evento
+
+        _mapper.Map<Sale>(command).Returns(sale);
+        _mapper.Map<CreateSaleResult>(sale).Returns(new CreateSaleResult { SaleId = sale.Id });
         _saleRepository.CreateAsync(Arg.Any<Sale>(), Arg.Any<CancellationToken>())
-            .Returns(new Sale());
+            .Returns(sale);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

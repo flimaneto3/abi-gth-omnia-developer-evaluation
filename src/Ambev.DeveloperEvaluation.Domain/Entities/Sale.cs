@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Events;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -8,12 +9,19 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// </summary>
 public class Sale : BaseEntity
 {
+    private readonly List<IDomainEvent> _domainEvents = new();
+
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    private void AddEvent(IDomainEvent @event) => _domainEvents.Add(@event);
+
     /// <summary>
     ///     Initializes a new instance of the Sale class.
     /// </summary>
     public Sale()
     {
         CreatedAt = DateTime.UtcNow;
+        IsCancelled = false;
     }
 
     /// <summary>
@@ -28,6 +36,7 @@ public class Sale : BaseEntity
         Items = items;
         CreatedAt = DateTime.UtcNow;
         Customer = customer;
+        IsCancelled = false;
     }
 
     /// <summary>
@@ -97,5 +106,48 @@ public class Sale : BaseEntity
     {
         IsCancelled = true;
         UpdatedAt = DateTime.UtcNow;
+        AddEvent(new SaleCancelled(Id));
+
+        foreach (var item in Items)
+        {
+            AddEvent(new ItemCancelled(Id, item.ProductId));
+        }
+    }
+    
+    /// <summary>
+    ///     Cancels the sale, marking it as invalid.
+    /// </summary>
+    public void CancelItem(Guid id, Guid productId)
+    {
+        AddEvent(new ItemCancelled(id, productId));
+    }
+
+    /// <summary>
+    ///     Create a sale, create an event.
+    /// </summary>
+    public void CreateSale()
+    {
+        AddEvent(new SaleCreated(Id));
+    }
+    
+    /// <summary>
+    ///     Update a sale, create an event.
+    /// </summary>
+    public void UpdateSale()
+    {
+        AddEvent(new SaleUpdated(Id));
+    }
+    
+    /// <summary>
+    ///     Modify a sale, modify event.
+    /// </summary>
+    public void ModifySale()
+    {
+        AddEvent(new SaleModified(Id));
+    }
+    
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
     }
 }

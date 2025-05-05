@@ -1,4 +1,5 @@
 ﻿using System;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -112,7 +113,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    SaleId = table.Column<Guid>(type: "uuid", nullable: true)
+                    SaleId = table.Column<Guid>(type: "uuid", nullable: false, defaultValue: new Guid("00000000-0000-0000-0000-000000000000"))
                 },
                 constraints: table =>
                 {

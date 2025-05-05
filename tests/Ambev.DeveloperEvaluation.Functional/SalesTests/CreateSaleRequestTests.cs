@@ -26,8 +26,7 @@ public class CreateSaleRequestTests
             Items = new List<SaleItemRequest>
             {
                 new() { ProductId = Guid.NewGuid(), Quantity = 2 }
-            },
-            IsCancelled = false
+            }
         };
 
         // Act

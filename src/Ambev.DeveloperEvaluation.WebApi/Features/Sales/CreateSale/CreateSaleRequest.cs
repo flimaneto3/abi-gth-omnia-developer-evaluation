@@ -30,9 +30,4 @@ public class CreateSaleRequest
     ///     Gets or sets the list of items included in the sale.
     /// </summary>
     public List<SaleItemRequest> Items { get; set; } = new();
-
-    /// <summary>
-    ///     Indicates whether the sale was cancelled.
-    /// </summary>
-    public bool IsCancelled { get; set; }
 }

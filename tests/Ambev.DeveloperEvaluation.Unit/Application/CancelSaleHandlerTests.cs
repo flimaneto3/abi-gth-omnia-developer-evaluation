@@ -1,40 +1,41 @@
-using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application;
 
-/// <summary>
-///     Contains unit tests for the <see cref="DeleteSaleHandler" /> class.
-/// </summary>
-public class DeleteSaleHandlerTests
+public class CancelSaleHandlerTests
 {
-    private readonly DeleteSaleHandler _handler;
+    private readonly CancelSaleHandler _handler;
     private readonly ISaleRepository _saleRepository;
+    private readonly IDomainEventDispatcher _eventDispatcher;
 
-    public DeleteSaleHandlerTests()
+    public CancelSaleHandlerTests()
     {
         _saleRepository = Substitute.For<ISaleRepository>();
-        _handler = new DeleteSaleHandler(_saleRepository);
+        _eventDispatcher = Substitute.For<IDomainEventDispatcher>();
+        _handler = new CancelSaleHandler(_saleRepository, _eventDispatcher);
     }
 
-    [Fact(DisplayName = "Given existing sale When deleting Then returns success response")]
-    public async Task Handle_ExistingSale_DeletesSuccessfully()
+    [Fact(DisplayName = "Given existing sale When cancelling Then returns success response")]
+    public async Task Handle_ExistingSale_CancelsSuccessfully()
     {
         // Arrange
         var saleId = Guid.NewGuid();
         var sale = new Sale { Id = saleId };
+        sale.CancelSale(); // Garante que IsCancelled está true e evento existe
 
         _saleRepository.GetByIdAsync(saleId, Arg.Any<CancellationToken>())
             .Returns(sale);
 
-        _saleRepository.DeleteAsync(saleId, Arg.Any<CancellationToken>())
-            .Returns(true);
+        _saleRepository.UpdateAsync(sale, Arg.Any<CancellationToken>())
+            .Returns(sale);
 
-        var command = new DeleteSaleCommand(saleId);
+        var command = new CancelSaleCommand(saleId);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -42,12 +43,11 @@ public class DeleteSaleHandlerTests
         // Assert
         result.Should().NotBeNull();
         result.Success.Should().BeTrue();
-        result.Message.Should().Be("Sale deleted successfully.");
-        await _saleRepository.Received(1).DeleteAsync(saleId, Arg.Any<CancellationToken>());
+        result.Message.Should().Be("Sale canceled successfully.");
     }
 
-    [Fact(DisplayName = "Given existing sale When deletion fails Then returns failure response")]
-    public async Task Handle_ExistingSale_DeleteFails_ReturnsFailure()
+    [Fact(DisplayName = "Given existing sale When cancellation fails Then returns failure response")]
+    public async Task Handle_ExistingSale_CancellationFails_ReturnsFailure()
     {
         // Arrange
         var saleId = Guid.NewGuid();
@@ -56,20 +56,20 @@ public class DeleteSaleHandlerTests
         _saleRepository.GetByIdAsync(saleId, Arg.Any<CancellationToken>())
             .Returns(sale);
 
-        _saleRepository.DeleteAsync(saleId, Arg.Any<CancellationToken>())
-            .Returns(false);
+        _saleRepository.UpdateAsync(sale, Arg.Any<CancellationToken>())
+            .Returns(new Sale { Id = saleId });
 
-        var command = new DeleteSaleCommand(saleId);
+        var command = new CancelSaleCommand(saleId);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Success.Should().BeFalse();
-        result.Message.Should().Be("Failed to delete sale.");
+        result.Message.Should().Be("Failed to cancel sale.");
     }
 
-    [Fact(DisplayName = "Given non-existing sale When deleting Then throws exception")]
+    [Fact(DisplayName = "Given non-existing sale When cancelling Then throws exception")]
     public async Task Handle_SaleDoesNotExist_ThrowsInvalidOperationException()
     {
         // Arrange
@@ -77,7 +77,7 @@ public class DeleteSaleHandlerTests
         _saleRepository.GetByIdAsync(saleId, Arg.Any<CancellationToken>())
             .Returns((Sale)null!);
 
-        var command = new DeleteSaleCommand(saleId);
+        var command = new CancelSaleCommand(saleId);
 
         // Act
         var act = () => _handler.Handle(command, CancellationToken.None);

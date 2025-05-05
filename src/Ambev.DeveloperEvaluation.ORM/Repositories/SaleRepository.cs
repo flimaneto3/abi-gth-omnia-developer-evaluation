@@ -45,6 +45,7 @@ public class SaleRepository : ISaleRepository
             .Include(s => s.Customer)
             .Include(s => s.Branch)
             .Include(s => s.Items)
+            .ThenInclude(i => i.Product)
             .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
     }
 

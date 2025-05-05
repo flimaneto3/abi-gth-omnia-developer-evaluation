@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Events;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -16,5 +17,6 @@ public class InfrastructureModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<ISaleRepository, SaleRepository>();
         builder.Services.AddScoped<ISaleItemRepository, SaleItemRepository>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddScoped<IDomainEventDispatcher, LoggingDomainEventDispatcher>();
     }
 }

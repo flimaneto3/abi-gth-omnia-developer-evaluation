@@ -13,7 +13,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id)
             .HasColumnType("uuid")
-            .HasDefaultValueSql("gen_random_uuid()");
+            .HasDefaultValueSql("gen_random_uuid()");   
 
         builder.Property(s => s.SaleNumber)
             .IsRequired()
@@ -25,9 +25,9 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.IsCancelled)
             .IsRequired();
 
-        builder.HasOne(s => s.Customer)
-            .WithMany()
-            .HasForeignKey("CustomerId");
+            builder.HasOne(s => s.Customer)
+                .WithMany()
+                .HasForeignKey("CustomerId");
 
         builder.HasOne(s => s.Branch)
             .WithMany()
