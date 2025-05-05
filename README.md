@@ -220,3 +220,12 @@ Open your Postman, click File > Import and choose the json file [End-to-End Test
 
 - This project was built with a focus on **readability**, **modularity**, and **maintainability**.
 - Domain events are logged but can be extended for real event publishing.
+
+---
+
+## ✏️ To Do
+
+- Create environment variables and secrets for database user and password.
+- Implement the events, not only log the events.
+- Check warning on database container: database "developer_evaluation" does not exist
+- Check the architectural decision to use MongoDB and Redis.
