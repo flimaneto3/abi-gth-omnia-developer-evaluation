@@ -49,7 +49,7 @@ This project is a .NET 8 Web API for managing sales records, developed as part o
 
 ### Clone the repository
 
-git clone https://github.com/seu-usuario/abi-gth-omnia-developer-evaluation.git
+git clone https://github.com/flimaneto3/abi-gth-omnia-developer-evaluation.git
 cd abi-gth-omnia-developer-evaluation
 
 ### Start containers
