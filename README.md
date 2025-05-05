@@ -50,10 +50,10 @@ This project is a .NET 8 Web API for managing sales records, developed as part o
 ### Clone the repository
 
 Clone:
-git clone https://github.com/flimaneto3/abi-gth-omnia-developer-evaluation.git
+> git clone https://github.com/flimaneto3/abi-gth-omnia-developer-evaluation.git
 
 Go to folder:
-cd abi-gth-omnia-developer-evaluation
+> cd abi-gth-omnia-developer-evaluation
 
 ### Start containers
 
@@ -110,6 +110,93 @@ To facilitate testing and speed up development, the project automatically seeds 
 
 These test records are loaded **only in the development environment** and are intended to support automated tests, Postman requests, or manual validation.
 
+
+
+---
+
+
+
+# API Usage Examples (cURL)
+
+> ⚠️ You must authenticate first using the `Authentication` endpoint. The token returned must be used in the `Authorization` header as a Bearer token in all subsequent requests.
+>
+> You can test the GET and DELETE endpoints using this sale ID: `7fb85f64-5555-4444-b3fc-2c963f66afa6`, or create a new sale and use its returned ID.
+
+---
+
+### 🔐 Authentication
+
+```bash
+curl -X POST http://localhost:8080/api/Auth \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@example.com",
+    "password": "securepasswordhash"
+}'
+```
+
+---
+
+### 🛒 Create Sale
+
+```bash
+curl -X POST http://localhost:8080/api/Sales \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {YourTokenHere}" \
+  -d '{
+    "saleNumber": "SL-1234",
+    "saleDate": "2025-05-04T21:02:56.346Z",
+    "customerId": "4eb85f64-6789-1234-b3fc-2c963f66afa6",
+    "branchId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "items": [
+      {
+        "productId": "5fb85f64-1234-5678-b3fc-2c963f66afa6",
+        "quantity": 10
+      }
+    ]
+}'
+```
+
+---
+
+### 📄 Select Sale
+
+```bash
+curl -X GET http://localhost:8080/api/Sales/7fb85f64-5555-4444-b3fc-2c963f66afa6 \
+  -H "Authorization: Bearer {YourTokenHere}"
+```
+
+---
+
+### ✏️ Update Sale
+
+```bash
+curl -X PUT http://localhost:8080/api/Sales/7fb85f64-5555-4444-b3fc-2c963f66afa6 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {YourTokenHere}" \
+  -d '{
+    "id": "7fb85f64-5555-4444-b3fc-2c963f66afa6",
+    "saleNumber": "1234",
+    "saleDate": "2025-05-04T21:02:56.346Z",
+    "customerId": "4eb85f64-6789-1234-b3fc-2c963f66afa6",
+    "branchId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "items": [
+      {
+        "productId": "5fb85f64-1234-5678-b3fc-2c963f66afa6",
+        "quantity": 20
+      }
+    ]
+}'
+```
+
+---
+
+### ❌ Cancel Sale
+
+```bash
+curl -X DELETE http://localhost:8080/api/Sales/7fb85f64-5555-4444-b3fc-2c963f66afa6 \
+  -H "Authorization: Bearer {YourTokenHere}"
+```
 
 
 
